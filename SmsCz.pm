@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 # Modules.
-use Encode;
+use Encode qw(decode_utf8 encode encode_utf8 is_utf8);
 use HTTP::Request;
 use MetaTrans::Base qw(convert_to_utf8);
 
@@ -86,14 +86,14 @@ sub create_request
     );
 
     # convert to Perl's internal UTF-8 format
-    $expression = Encode::decode_utf8($expression)
-        unless Encode::is_utf8($expression);
+    $expression = decode_utf8($expression)
+        unless is_utf8($expression);
     
     # replace blanks with pluses (+)
     $expression =~ s/\s+/+/g;
 
     # convert to cp1250 character encoding (that's what server expects)
-    $expression = Encode::encode("cp1250", lc $expression)
+    $expression = encode("cp1250", lc $expression)
 	if $src_lang_code ne 'rus';
 
     # do some server-specific character escapings
@@ -183,7 +183,7 @@ sub _normalize_german_article
     $expr_dec = $2 . "; " . substr($1, 2, 1)
         if $expr_dec =~ /^(der|die|das) (\w+)$/;
     
-    return Encode::encode_utf8($expr_dec);
+    return encode_utf8($expr_dec);
 }
 
 1;
