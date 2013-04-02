@@ -44,7 +44,7 @@ sub new
     my $self = new MetaTrans::Base(%options);
     $self = bless $self, $class;
 
-    $self->set_languages("cze", "eng", "ger", "fre", "spa", "ita", "rus");
+    $self->set_languages("cze", "eng", "fre", "ger", "ita", "rus", "spa");
 
     $self->set_dir_1_to_all("cze");
     $self->set_dir_all_to_1("cze");
